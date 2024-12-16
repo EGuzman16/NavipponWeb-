@@ -21,10 +21,14 @@ frontend  npm star
 Deben estar libres los puertos 5000 y 3000 
 
 .env
+
 PORT = 5000
+
 DB_URI = mongodb+srv://Navippon:Navippon@cluster0.za6yc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 MONGO_URI = mongodb+srv://Navippon:Navippon@cluster0.za6yc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
 JWT_SECRET = 123456
+
 NODE_ENV = development
 
 usuarios
