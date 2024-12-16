@@ -17,7 +17,7 @@ https://github.com/EGuzman16/NavipponWeb-.git
 
 backend  npm run dev
 
-frontend  npm star
+frontend  npm start
 
 Deben estar libres los puertos 5000 y 3000 
 
