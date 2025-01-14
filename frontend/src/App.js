@@ -1,6 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-
+import { ThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import createTheme from "@mui/material/styles/createTheme";
+import { themeSettings } from "./theme.js";
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
 
 import "./App.css";
 import ArticleDetailPage from "./pages/articleDetail/ArticleDetailPage";
@@ -23,7 +28,7 @@ import BlogPage from "./pages/blog/BlogPage";
 import ExperiencePage from "./pages/experience/ExperiencePage";
 import AboutPage from './pages/about/AboutPage';
 import ExperienceDetailPage from './pages/experienceDetail/ExperienceDetailPage';
-import UserLayout from "./pages/user/UserLayout"; 
+import UserLayout from "./pages/user/UserLayout"; import NotFound from "./pages/NotFound.jsx";
 import UserManagePosts from "./pages/user/screens/posts/ManagePosts";  
 import UserManageExperiences from "./pages/user/screens/experiences/ManageExperiences";
 import UserEditPost from "./pages/user/screens/posts/EditPost";
@@ -38,8 +43,15 @@ import ChatWithBot from "./pages/user/screens/chat/ChatWithBot";
 
 
 function App() {
+    const mode = useSelector((state) => state.mode);
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
   return (
     <div className="App font-opensans">
+      
+      <ThemeProvider theme={theme}>
+        
+          <CssBaseline />
       <Routes>
         <Route index path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -76,9 +88,11 @@ function App() {
           <Route path="itineraries/manage/edit/:id" element={<EditItinerary />} />
           <Route path="itineraries/manage/view/:id" element={<ItineraryDetailPage />} />
           <Route path="chat/bot" element={<ChatWithBot />} />            
-        </Route>
+        </Route> {/* 404 Not Found route */}
+            <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
+        </ThemeProvider>
     </div>
   );
 }

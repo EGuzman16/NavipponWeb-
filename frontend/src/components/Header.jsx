@@ -2,40 +2,36 @@ import React, { useState, useEffect, useRef } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useTheme, IconButton } from "@mui/material";
 
+import { LightMode, DarkMode } from "@mui/icons-material";
 import { images, stables } from "../constants";
-import useUser from "../hooks/useUser";  
+import useUser from "../hooks/useUser";
+import { setMode } from "@state/state.js";
 
 const navItemsInfo = [
-  { name: 'Inicio', type: 'link', href: '/' },
-  { name: 'Nosotros', type: 'link', href: '/about' },
-  { name: 'Explora', type: 'link', href: '/experience' },
-  { name: 'Blog', type: 'link', href: '/blog' },
-  { name: 'Contacto', type: 'link', href: '/contacto' },
+  { name: "Inicio", type: "link", href: "/" },
+  { name: "Nosotros", type: "link", href: "/about" },
+  { name: "Explora", type: "link", href: "/experience" },
+  { name: "Blog", type: "link", href: "/blog" },
+  { name: "Contacto", type: "link", href: "/contacto" },
 ];
 
 const NavItem = ({ item }) => {
   const [dropdown, setDropdown] = useState(false);
 
   const toggleDropdownHandler = () => {
-    setDropdown((curState) => {
-      return !curState;
-    });
+    setDropdown((curState) => !curState);
   };
 
   return (
     <li className="relative group mb-3">
       {item.type === "link" ? (
-        <>
-          <Link to={item.href} className="px-4 py-2">
-            {item.name}
-          </Link>
-          <span className="cursor-pointer text-[#fa5564] absolute transition-all duration-500 font-bold right-0 top-0 group-hover:right-[90%] opacity-0 group-hover:opacity-100">
-            /
-          </span>
-        </>
+        <Link to={item.href} className="px-4 py-2">
+          {item.name}
+        </Link>
       ) : (
         <div className="flex flex-col items-center">
           <button
@@ -46,15 +42,14 @@ const NavItem = ({ item }) => {
             <MdKeyboardArrowDown />
           </button>
           <div
-            className={`${dropdown ? "block" : "hidden"
-              } lg:hidden transition-all duration-500 pt-4 lg:absolute lg:bottom-0 lg:right-0 lg:transform lg:translate-y-full lg:group-hover:block w-max`}
+            className={`${dropdown ? "block" : "hidden"} transition-all duration-500 pt-4`}
           >
-            <ul className="bg-[#0A0330] lg:bg-white text-center flex flex-col shadow-lg rounded-lg overflow-hidden space-y-8">
+            <ul className="bg-primary text-center flex flex-col shadow-lg rounded-lg overflow-hidden space-y-8">
               {item.items.map((page, index) => (
                 <Link
                   key={index}
                   to={page.href}
-                  className="hover:bg-[#0A0330] hover:text-white px-4 py-2 mb-3 text-white lg:text-[#0A0330]"
+                  className="hover:bg-secondary hover:text-white px-4 py-2 mb-3"
                 >
                   {page.title}
                 </Link>
@@ -68,17 +63,16 @@ const NavItem = ({ item }) => {
 };
 
 const Header = () => {
+  const theme = useTheme(); // Use the theme hook here
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, logout } = useUser();  
+  const { user, logout } = useUser();
   const [navIsVisible, setNavIsVisible] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const profileRef = useRef(null);
 
   const navVisibilityHandler = () => {
-    setNavIsVisible((curState) => {
-      return !curState;
-    });
+    setNavIsVisible((curState) => !curState);
   };
 
   const logoutHandler = () => {
@@ -100,11 +94,27 @@ const Header = () => {
 
   return (
     <section className="w-full">
-      <header className="w-full px-5 py-8 flex flex-col md:flex-row justify-between items-center bg-[#0A0330] text-white">
+      <header
+        className="w-full px-5 py-8 flex flex-col md:flex-row justify-between items-center"
+        style={{
+          backgroundColor: theme.palette.background.nav,
+          color: theme.palette.primary.white,
+        }}
+      > <IconButton
+              onClick={() => dispatch(setMode())}
+              sx={{ color: "white" }}
+            >
+              {theme.palette.mode === "dark" ? <DarkMode /> : <LightMode />}
+            </IconButton>
         <div className="flex items-center gap-x-3 mb-4 md:mb-0 md:w-1/4">
           <Link to="/" className="flex items-center">
             <img src={images.Logo} alt="Logo" className="h-20" />
-            <h1 className="text-xl font-bold pl-2">Navippon</h1>
+            <h1
+              className="text-xl font-bold pl-2"
+              style={{ color: theme.palette.primary.main }}
+            >
+              Navippon
+            </h1>
           </Link>
           <div className="lg:hidden z-50 ml-4">
             {navIsVisible ? (
@@ -115,8 +125,7 @@ const Header = () => {
           </div>
         </div>
         <div
-          className={`${navIsVisible ? 'block' : 'hidden'
-            } md:flex flex-col md:flex-row gap-x-5 mt-8 md:mt-0 md:w-3/4`}
+          className={`${navIsVisible ? "block" : "hidden"} md:flex flex-col md:flex-row gap-x-5 mt-8 md:mt-0 md:w-3/4`}
         >
           <ul className="flex flex-col md:flex-row gap-x-5 items-center justify-center w-full">
             {navItemsInfo.map((item) => (
@@ -124,11 +133,15 @@ const Header = () => {
             ))}
           </ul>
           {user ? (
-            <div className="text-white bg-[#0A0330] items-center gap-y-5 lg:text-dark-soft flex flex-col lg:flex-row gap-x-2 font-semibold z-50">
+            <div className="flex flex-col lg:flex-row gap-x-2 font-semibold z-50">
               <div className="relative group" ref={profileRef}>
                 <div className="flex flex-col items-center">
                   <button
-                    className="flex items-center justify-center w-20 h-20 bg-[#fa5564] rounded-full text-white font-semibold hover:bg-white hover:text-[#fa5564] transition-all duration-300"
+                    className="flex items-center justify-center w-20 h-20 rounded-full"
+                    style={{
+                      backgroundColor: theme.palette.primary.main,
+                      color: theme.palette.background.default,
+                    }}
                     onClick={() => setProfileDropdown(!profileDropdown)}
                   >
                     {user.avatar ? (
@@ -142,15 +155,21 @@ const Header = () => {
                     )}
                   </button>
                   <div
-                    className={`${profileDropdown ? "block" : "hidden"
-                      } lg:hidden transition-all duration-500 pt-4 lg:absolute lg:bottom-0 lg:right-0 lg:transform lg:translate-y-full lg:group-hover:block w-max`}
+                    className={`${profileDropdown ? "block" : "hidden"} transition-all duration-500 pt-4`}
                   >
-                    <ul className="bg-[#0A0330] lg:bg-[#0A0330] text-center flex flex-col shadow-lg rounded-lg overflow-hidden z-50">
+                    <ul
+                      className="text-center flex flex-col shadow-lg rounded-lg overflow-hidden z-50"
+                      style={{ backgroundColor: theme.palette.background.alt }}
+                    >
                       {user.admin && (
                         <button
                           onClick={() => navigate("/admin")}
                           type="button"
-                          className="hover:bg-[#fa5564] hover:text-white px-4 py-2 text-white lg:text-white"
+                          style={{
+                            color: theme.palette.text.primary,
+                            backgroundColor: theme.palette.primary.light,
+                          }}
+                          className="hover:bg-secondary hover:text-white px-4 py-2"
                         >
                           Panel Administrador
                         </button>
@@ -158,21 +177,22 @@ const Header = () => {
                       <button
                         onClick={() => navigate("/profile")}
                         type="button"
-                        className="hover:bg-[#fa5564] hover:text-white px-4 py-2 text-white lg:text-white"
+                        className="hover:bg-secondary hover:text-white px-4 py-2"
+                        style={{
+                          color: theme.palette.text.primary,
+                          backgroundColor: theme.palette.primary.light,
+                        }}
                       >
                         Perfil
                       </button>
                       <button
-                        onClick={() => navigate("/user")}
-                        type="button"
-                        className="hover:bg-[#fa5564] hover:text-white px-4 py-2 text-white lg:text-white"
-                      >
-                        Panel de Usuario
-                      </button>
-                      <button
                         onClick={logoutHandler}
                         type="button"
-                        className="hover:bg-[#fa5564] hover:text-white px-4 py-2 text-white lg:text-white"
+                        style={{
+                          color: theme.palette.text.primary,
+                          backgroundColor: theme.palette.primary.light,
+                        }}
+                        className="hover:bg-secondary hover:text-white px-4 py-2"
                       >
                         Cerrar Sesión
                       </button>
@@ -184,7 +204,11 @@ const Header = () => {
           ) : (
             <button
               onClick={() => navigate("/login")}
-              className="flex gap-x-1 items-center mt-5 lg:mt-0 bg-[#fa5564] px-6 py-2 rounded-full text-white font-semibold hover:bg-white hover:text-[#fa5564] transition-all duration-300"
+              className="flex gap-x-1 items-center mt-5 lg:mt-0 px-6 py-2 rounded-full font-semibold"
+              style={{
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.background.default,
+              }}
             >
               Ingresar
             </button>
