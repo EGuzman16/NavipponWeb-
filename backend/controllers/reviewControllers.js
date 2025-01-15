@@ -1,5 +1,5 @@
-import Review from "../models/Review";
-import Experience from "../models/Experience";
+import Review from "../models/Review.js";
+import Experience from "../models/Experience.js";
 
 const createReview = async (req, res, next) => {
     try {

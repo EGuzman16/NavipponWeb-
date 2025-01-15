@@ -1,10 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
-
 import { userReducer } from "./reducers/userReducers";
 
-const userInfoFromStorage = localStorage.getItem("account")
-  ? JSON.parse(localStorage.getItem("account"))
-  : null;
+// Get user data from localStorage with safe parsing
+let userInfoFromStorage = null;
+const storedUserData = localStorage.getItem("account");
+
+if (storedUserData) {
+  try {
+    userInfoFromStorage = JSON.parse(storedUserData);
+  } catch (error) {
+    console.error("Error parsing user data from localStorage:", error);
+    userInfoFromStorage = null; // Reset to null if parsing fails
+  }
+}
 
 const initialState = {
   user: { userInfo: userInfoFromStorage },

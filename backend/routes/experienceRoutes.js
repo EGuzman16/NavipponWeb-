@@ -8,8 +8,8 @@ import {
   updateExperience,
   getExperienceById, 
   getRelatedExperiences,
-} from "../controllers/experienceControllers";
-import { authGuard, adminGuard } from "../middleware/authMiddleware";
+} from "../controllers/experienceControllers.js";
+import { authGuard, adminGuard } from "../middleware/authMiddleware.js";
 
 router.route("/").post(authGuard, adminGuard, createExperience).get(getAllExperiences);
 router

@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { FcGoogle } from 'react-icons/fc';
 import MainLayout from "../../components/MainLayout";
 import { signup } from "../../services/index/users";
 import { userActions } from "../../store/reducers/userReducers";
@@ -13,21 +12,28 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
-
+  
   const { mutate, isLoading } = useMutation({
     mutationFn: ({ name, email, password }) => {
       return signup({ name, email, password });
     },
     onSuccess: (data) => {
-      dispatch(userActions.setUserInfo(data));
-      localStorage.setItem("account", JSON.stringify(data));
+      console.log("Signup successful, data:", data);  // Log the complete response
+      if (data) {
+        const { name, email, token } = data;  // Destructure data if it's valid
+        dispatch(userActions.setUserInfo(name, email, token));
+        localStorage.setItem("account", JSON.stringify({ name, email, token }));
+      } else {
+        console.error('Signup data is undefined');  // Log if data is undefined
+      }
     },
     onError: (error) => {
+      console.log("Error during signup:", error);  // Log the error
       toast.error(error.message);
-      console.log(error);
     },
   });
-
+  
+  
   useEffect(() => {
     if (userState.userInfo) {
       navigate("/");

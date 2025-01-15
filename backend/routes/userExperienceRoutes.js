@@ -6,8 +6,8 @@ import {
   updateExperience,
   getUserExperiences,
   getSingleUserExperience, 
-} from "../controllers/userExperienceControllers";
-import { authGuard } from "../middleware/authMiddleware";
+} from "../controllers/userExperienceControllers.js";
+import { authGuard } from "../middleware/authMiddleware.js";
 
 // Rutas para los usuarios autenticados
 router.route("/").post(authGuard, createExperience);

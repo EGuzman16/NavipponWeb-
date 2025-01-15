@@ -5,8 +5,8 @@ import {
     deleteReview,
     getAllReviews,
     updateReview,
-} from "../controllers/reviewControllers";
-import { adminGuard, authGuard } from "../middleware/authMiddleware";
+} from "../controllers/reviewControllers.js";
+import { adminGuard, authGuard } from "../middleware/authMiddleware.js";
 
 router
     .route("/")

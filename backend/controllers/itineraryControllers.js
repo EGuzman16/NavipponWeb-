@@ -3,7 +3,7 @@ import Favorite from "../models/Favorite.js";
 import Experience from "../models/Experience.js";
 
 // Crear un nuevo itinerario
-const createItinerary = async (req, res, next) => {
+export const createItinerary = async (req, res, next) => {
     try {
         const { name, travelDays, totalBudget, boards, notes } = req.body;
         const itinerary = new Itinerary({
@@ -23,7 +23,7 @@ const createItinerary = async (req, res, next) => {
 };
 
 // Obtener todos los itinerarios
-const getAllItineraries = async (req, res, next) => {
+export const getAllItineraries = async (req, res, next) => {
     try {
         const itineraries = await Itinerary.find().populate('boards.favorites').populate('user');
         return res.status(200).json(itineraries);
@@ -33,7 +33,7 @@ const getAllItineraries = async (req, res, next) => {
 };
 
 // Obtener un itinerario por ID (vista individual)
-const getItinerary = async (req, res, next) => {
+export const getItinerary = async (req, res, next) => {
     try {
         const itinerary = await Itinerary.findById(req.params.id).populate('user');
         if (!itinerary) {
@@ -75,7 +75,7 @@ const getItinerary = async (req, res, next) => {
 };
 
 // Obtener un itinerario por ID (para edición)
-const getItineraryForEdit = async (req, res, next) => {
+export const getItineraryForEdit = async (req, res, next) => {
     try {
         const itinerary = await Itinerary.findById(req.params.id)
             .populate({
@@ -99,7 +99,7 @@ const getItineraryForEdit = async (req, res, next) => {
 };
 
 // Actualizar un itinerario por ID
-const updateItinerary = async (req, res, next) => {
+export const updateItinerary = async (req, res, next) => {
     try {
         const { name, travelDays, totalBudget, boards, notes } = req.body;
         const itinerary = await Itinerary.findById(req.params.id);
@@ -140,7 +140,7 @@ const updateItinerary = async (req, res, next) => {
 };
 
 // Eliminar un itinerario por ID
-const deleteItinerary = async (req, res, next) => {
+export const deleteItinerary = async (req, res, next) => {
     try {
         const itinerary = await Itinerary.findByIdAndDelete(req.params.id);
         if (!itinerary) {
@@ -153,7 +153,7 @@ const deleteItinerary = async (req, res, next) => {
 };
 
 // Obtener todos los itinerarios del usuario autenticado
-const getUserItineraries = async (req, res, next) => {
+export const getUserItineraries = async (req, res, next) => {
     try {
         const userId = req.user._id;
         const itineraries = await Itinerary.find({ user: userId }).populate('boards.favorites').populate('user');
@@ -162,5 +162,3 @@ const getUserItineraries = async (req, res, next) => {
         next(error);
     }
 };
-
-export { createItinerary, getAllItineraries, getItinerary, getItineraryForEdit, updateItinerary, deleteItinerary, getUserItineraries };

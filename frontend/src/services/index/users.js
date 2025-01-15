@@ -2,18 +2,16 @@ import axios from "axios";
 
 export const signup = async ({ name, email, password }) => {
   try {
-    const { data } = await axios.post("/api/users/register", {
-      name,
-      email,
-      password,
-    });
-    return data;
+    const response = await axios.post('/api/users/register', { name, email, password });
+    console.log("Signup API response:", response);  // Log the response
+    return response.data;  // Make sure to return response.data
   } catch (error) {
-    if (error.response && error.response.data.message)
-      throw new Error(error.response.data.message);
-    throw new Error(error.message);
+    console.error("Error during signup:", error.response || error);
+    throw new Error(error.response?.data?.message || 'Signup failed');
   }
 };
+
+
 
 export const login = async ({ email, password }) => {
   try {
@@ -31,6 +29,10 @@ export const login = async ({ email, password }) => {
 
 export const getUserProfile = async ({ token }) => {
   try {
+    if (!token) {
+      throw new Error("No token found");
+    }
+
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -40,9 +42,7 @@ export const getUserProfile = async ({ token }) => {
     const { data } = await axios.get("/api/users/profile", config);
     return data;
   } catch (error) {
-    if (error.response && error.response.data.message)
-      throw new Error(error.response.data.message);
-    throw new Error(error.message);
+    console.log(error);
   }
 };
 

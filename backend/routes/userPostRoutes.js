@@ -6,8 +6,8 @@ import {
   updatePost,
   getUserPosts,  
   getPost,
-} from "../controllers/userPostControllers";
-import { authGuard } from "../middleware/authMiddleware";
+} from "../controllers/userPostControllers.js";
+import { authGuard } from "../middleware/authMiddleware.js";
 
 // Rutas para los usuarios autenticados
 router.route("/").post(authGuard, createPost);
