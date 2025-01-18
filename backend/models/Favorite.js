@@ -1,16 +1,21 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-const favoriteSchema = new mongoose.Schema({
+const favoriteSchema = new mongoose.Schema(
+  {
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     experienceId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Experience',
-        required: true
-    }
-}, { timestamps: true });
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Experience",
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Favorite', favoriteSchema);
+// Use ES module syntax for exporting
+const Favorite = mongoose.model("Favorite", favoriteSchema);
+export default Favorite;

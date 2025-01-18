@@ -1,6 +1,9 @@
 import { Schema, model } from "mongoose";
-import { hash, compare } from "bcryptjs";
-import { sign } from "jsonwebtoken";
+import bcrypt from "bcryptjs"; // Import the default export
+import jwt from "jsonwebtoken"; // Import the default export
+
+const { hash, compare } = bcrypt; // Destructure required methods
+const { sign } = jwt; // Destructure required method
 
 const UserSchema = new Schema(
   {

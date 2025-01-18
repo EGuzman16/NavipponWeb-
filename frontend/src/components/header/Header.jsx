@@ -4,9 +4,13 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
-import { images, stables } from "../constants";
-import useUser from "../hooks/useUser";  
+import {
+  IconButton, useTheme
+} from "@mui/material";
+import {  LightMode, DarkMode } from "@mui/icons-material";
+import { images, stables } from "../../constants/index.js";
+import useUser from "../../hooks/useUser.js";
+import { setMode } from "../../state/state.js";
 
 const navItemsInfo = [
   { name: 'Inicio', type: 'link', href: '/' },
@@ -70,6 +74,7 @@ const NavItem = ({ item }) => {
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const theme = useTheme();
   const { user, logout } = useUser();  
   const [navIsVisible, setNavIsVisible] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
@@ -122,7 +127,12 @@ const Header = () => {
             {navItemsInfo.map((item) => (
               <NavItem key={item.name} item={item} />
             ))}
-          </ul>
+          </ul>  <IconButton
+              onClick={() => dispatch(setMode())}
+              sx={{ color: "white" }}
+            >
+              {theme.palette.mode === "dark" ? <DarkMode /> : <LightMode />}
+            </IconButton>
           {user ? (
             <div className="text-white bg-[#0A0330] items-center gap-y-5 lg:text-dark-soft flex flex-col lg:flex-row gap-x-2 font-semibold z-50">
               <div className="relative group" ref={profileRef}>

@@ -1,7 +1,7 @@
-import { uploadPicture } from "../middleware/uploadPictureMiddleware";
-import Experience from "../models/Experience";
-import Review from "../models/Review";
-import { fileRemover } from "../utils/fileRemover";
+import { uploadPicture } from "../middleware/uploadPictureMiddleware.js";
+import Experience from "../models/Experience.js";
+import Review from "../models/Review.js";
+import { fileRemover } from "../utils/fileRemover.js";
 import { v4 as uuidv4 } from "uuid";
 
 const createExperience = async (req, res, next) => {

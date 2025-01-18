@@ -1,8 +1,14 @@
 import { Routes, Route } from "react-router-dom";
+import { useMemo, useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import createTheme from "@mui/material/styles/createTheme";
+import { themeSettings } from "./theme.js";
 
-
+import { useSelector } from "react-redux";
 import "./App.css";
+import NotFound from "./pages/NotFound.jsx";
 import ArticleDetailPage from "./pages/articleDetail/ArticleDetailPage";
 import HomePage from "./pages/home/HomePage";
 import RegisterPage from "./pages/register/RegisterPage";
@@ -35,50 +41,65 @@ import CreateItinerary from "./pages/user/screens/itineraries/CreateItinerary";
 import ItineraryDetailPage from "./pages/user/screens/itineraries/ItineraryDetailPage";
 import ChatWithBot from "./pages/user/screens/chat/ChatWithBot";  
 
-
-
 function App() {
+  // Get saved theme mode from localStorage or default to 'light'
+  const savedMode = localStorage.getItem("themeMode") || "light";
+  
+  // Set the initial mode state
+  const [mode, setMode] = useState(savedMode);
+
+  // Update localStorage whenever the mode changes
+  useEffect(() => {
+    localStorage.setItem("themeMode", mode);
+  }, [mode]);
+
+  // Define the theme using the mode state
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
   return (
     <div className="App font-opensans">
-      <Routes>
-        <Route index path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/experience" element={<ExperiencePage />} />
-        <Route path="/blog/:slug" element={<ArticleDetailPage />} />
-        <Route path="/experience/:slug" element={<ExperienceDetailPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Admin />} />
-          <Route path="comments" element={<Comments />} />
-          <Route path="reviews" element={<Reviews />} />
-          <Route path="posts/manage" element={<ManagePosts />} />
-          <Route path="experiences/manage" element={<ManageExperiences />} />
-          <Route path="posts/manage/edit/:slug" element={<EditPost />} />
-          <Route path="experiences/manage/edit/:slug" element={<EditExperience />} />
-          <Route path="categories/manage" element={<Categories />} />
-          <Route
-            path="categories/manage/edit/:slug"
-            element={<EditCategories />}
-          />
-          <Route path="users/manage" element={<Users />} />
-        </Route>
-        <Route path="/user" element={<UserLayout />}> 
-          <Route path="posts/manage" element={<UserManagePosts />} />
-          <Route path="experiences/manage" element={<UserManageExperiences />} />
-          <Route path="posts/manage/edit/:slug" element={<UserEditPost />} />
-          <Route path="experiences/manage/edit/:slug" element={<UserEditExperience />} />
-          <Route path="favorites/manage" element={<ManageFavorites />} />  
-          <Route path="itineraries/manage" element={<ManageItineraries />} /> 
-          <Route path="itineraries/manage/create" element={<CreateItinerary />} />
-          <Route path="itineraries/manage/edit/:id" element={<EditItinerary />} />
-          <Route path="itineraries/manage/view/:id" element={<ItineraryDetailPage />} />
-          <Route path="chat/bot" element={<ChatWithBot />} />            
-        </Route>
-      </Routes>
-      <Toaster />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Routes>
+          <Route index path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/experience" element={<ExperiencePage />} />
+          <Route path="/blog/:slug" element={<ArticleDetailPage />} />
+          <Route path="/experience/:slug" element={<ExperienceDetailPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Admin />} />
+            <Route path="comments" element={<Comments />} />
+            <Route path="reviews" element={<Reviews />} />
+            <Route path="posts/manage" element={<ManagePosts />} />
+            <Route path="experiences/manage" element={<ManageExperiences />} />
+            <Route path="posts/manage/edit/:slug" element={<EditPost />} />
+            <Route path="experiences/manage/edit/:slug" element={<EditExperience />} />
+            <Route path="categories/manage" element={<Categories />} />
+            <Route path="categories/manage/edit/:slug" element={<EditCategories />} />
+            <Route path="users/manage" element={<Users />} />
+          </Route>
+          <Route path="/user" element={<UserLayout />}> 
+            <Route path="posts/manage" element={<UserManagePosts />} />
+            <Route path="experiences/manage" element={<UserManageExperiences />} />
+            <Route path="posts/manage/edit/:slug" element={<UserEditPost />} />
+            <Route path="experiences/manage/edit/:slug" element={<UserEditExperience />} />
+            <Route path="favorites/manage" element={<ManageFavorites />} />  
+            <Route path="itineraries/manage" element={<ManageItineraries />} /> 
+            <Route path="itineraries/manage/create" element={<CreateItinerary />} />
+            <Route path="itineraries/manage/edit/:id" element={<EditItinerary />} />
+            <Route path="itineraries/manage/view/:id" element={<ItineraryDetailPage />} />
+            <Route path="chat/bot" element={<ChatWithBot />} />            
+          </Route>
+            {/* 404 Not Found route */}
+            <Route path="*" element={<NotFound />} />
+        </Routes>
+
+        <Toaster />
+      </ThemeProvider>
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import { verify } from "jsonwebtoken";
-import User from "../models/User";
-
+import jwt from "jsonwebtoken"; 
+import User from "../models/User.js";
+const { verify } = jwt;
 export const authGuard = async (req, res, next) => {
   if (
     req.headers.authorization &&

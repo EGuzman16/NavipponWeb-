@@ -1,7 +1,7 @@
-const Favorite = require('../models/Favorite');
-const Experience = require('../models/Experience');
+import Experience from "../models/Experience.js";
+import Favorite from "../models/Favorite.js";
 
-const addFavorite = async (req, res) => {
+export const addFavorite = async (req, res) => {
     try {
         const { experienceId } = req.body;
         const userId = req.user.id;
@@ -26,7 +26,7 @@ const addFavorite = async (req, res) => {
     }
 };
 
-const removeFavorite = async (req, res) => {
+export const removeFavorite = async (req, res) => {
     try {
         const { experienceId } = req.body;
         const userId = req.user.id;
@@ -46,7 +46,7 @@ const removeFavorite = async (req, res) => {
     }
 };
 
-const getUserFavorites = async (req, res) => {
+export const getUserFavorites = async (req, res) => {
     try {
         const userId = req.user.id;
         console.log("Datos recibidos en getUserFavorites:", { userId });
@@ -58,7 +58,7 @@ const getUserFavorites = async (req, res) => {
     }
 };
 
-const getFavoritesCount = async (req, res) => {
+export const getFavoritesCount = async (req, res) => {
     try {
         const { experienceId } = req.params;
         const favoritesCount = await Favorite.countDocuments({ experienceId });
@@ -67,11 +67,4 @@ const getFavoritesCount = async (req, res) => {
         console.error("Error en getFavoritesCount:", error);
         res.status(500).json({ error: 'Error al obtener el contador de favoritos' });
     }
-};
-
-module.exports = {
-    addFavorite,
-    removeFavorite,
-    getUserFavorites,
-    getFavoritesCount  
 };

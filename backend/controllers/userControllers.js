@@ -1,10 +1,10 @@
-import { uploadPicture } from "../middleware/uploadPictureMiddleware";
-import Comment from "../models/Comment";
-import Post from "../models/Post";
-import User from "../models/User";
-import { fileRemover } from "../utils/fileRemover";
+import { uploadPicture } from "../middleware/uploadPictureMiddleware.js";
+import Comment from "../models/Comment.js";
+import Post from "../models/Post.js";
+import User from "../models/User.js";
+import { fileRemover } from "../utils/fileRemover.js";
 
-const registerUser = async (req, res, next) => {
+export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
@@ -34,7 +34,7 @@ const registerUser = async (req, res, next) => {
   }
 };
 
-const loginUser = async (req, res, next) => {
+export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -62,7 +62,7 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-const userProfile = async (req, res, next) => {
+export const userProfile = async (req, res, next) => {
   try {
     let user = await User.findById(req.user._id);
 
@@ -85,7 +85,7 @@ const userProfile = async (req, res, next) => {
   }
 };
 
-const updateProfile = async (req, res, next) => {
+export const updateProfile = async (req, res, next) => {
   try {
     const userIdToUpdate = req.params.userId;
 
@@ -131,7 +131,7 @@ const updateProfile = async (req, res, next) => {
   }
 };
 
-const updateProfilePicture = async (req, res, next) => {
+export const updateProfilePicture = async (req, res, next) => {
   try {
     const upload = uploadPicture.single("profilePicture");
 
@@ -221,7 +221,7 @@ export const getAllUsers = async (req, res, next) => {
   }
 };
 
-const deleteUser = async (req, res, next) => {
+export const deleteUser = async (req, res, next) => {
   try {
     let user = await User.findById(req.params.userId);
 
@@ -253,12 +253,3 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-export {
-  registerUser,
-  loginUser,
-  userProfile,
-  updateProfile,
-  updateProfilePicture,
-  getAllUsers,
-  deleteUser,
-};
