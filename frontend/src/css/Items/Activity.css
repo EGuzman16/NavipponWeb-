@@ -1,0 +1,23 @@
+.activity-item-profile {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-direction: column !important;
+  width: 100% !important;
+  align-items: center;
+}
+
+.container-favorites {
+  display: flex;
+}
+
+.favorite-profile {
+  position: relative !important;
+}
+
+.activity-image-profile {
+  width: 100% !important;
+  height: 200px !important;
+  margin-right: 0px !important;
+}

@@ -1,0 +1,147 @@
+/*items page view */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+.filters-widget {
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filter-buttons .MuiButton-root {
+  text-transform: none;
+}
+
+.filter-buttons {
+  display: flex;
+}
+
+.filter-buttons button {
+  border-radius: 0px !important;
+}
+.filter-buttons button:nth-child(1) {
+  border-radius: 2rem 0rem 0rem 2rem !important;
+}
+.filter-buttons button:nth-child(3) {
+  border-radius: 0rem 2rem 2rem 0rem !important;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-item {
+  display: flex;
+  padding: 20px !important;
+  border-radius: 10px;
+}
+
+.activity-item img {
+  width: 229px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.activity-details {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.activity-title {
+  font-size: 1.25rem !important;
+  display: flex;
+  align-items: center;
+}
+
+.activity-description {
+  font-size: 1rem;
+  color: #666;
+}
+
+.activity-price {
+  font-size: 1.2rem;
+  color: #ff4081;
+}
+
+.prefecture-badge {
+  background-color: #ffe4e7;
+  padding: 0.25rem 0.5rem;
+  border-radius: 30rem;
+  font-size: 0.75rem;
+  margin-left: 10px;
+  color: #ff4081;
+}
+
+.budget {
+  font-weight: 500 !important;
+    display: flex;
+    height: 100%;
+    font-size: 1.25rem !important;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.button-detail,
+.button-create,
+.button {
+  border-radius: 30rem !important;
+  border: none !important;
+}
+
+.favorite {
+  height: 37px;
+  margin-top: -4px !important;
+}
+
+.wrap-buttons {
+  margin-top: 10px;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  flex-direction: row !important;
+}
+@media (max-width: 800px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 700px) {
+  .activity-item {
+    flex-direction: column;
+    align-items: center;
+  }
+  .activity-item img {
+    width: 100%;
+    margin-right: 0px;
+  }
+  .activity-details {
+    justify-content: center;
+    align-items: center;
+  }
+  .activity-title {
+    margin-top: 10px !important;
+  }
+  .activity-description {
+    font-size: 1rem;
+    padding-top: 5px;
+    text-align: center !important;
+  }
+  .favorite {
+    margin-top: 10px !important;
+  }
+  .budget {
+    position: initial;
+    right: 0px;
+    margin-left: 0px !important;
+    margin-top: 0px !important;
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Hero = ({ imageUrl, imageAlt }) => {
     return (
-        <div className="relative h-screen">
+        <div className="relative" style={{height:"60vh"}}>
             <img 
                 src={imageUrl} 
                 alt={imageAlt} 

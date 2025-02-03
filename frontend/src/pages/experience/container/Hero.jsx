@@ -1,17 +1,25 @@
-import React from 'react';
-import heroblog from '../../../assets/heroblog.webp';
-import nube from '../../../assets/nube.png';
-
+import { Box, Typography, useTheme } from "@mui/material";
 const Hero = () => {
-    return (
-        <div className="relative h-screen bg-cover bg-center" style={{ backgroundImage: `url(${heroblog})` }}>
-            <div className="absolute inset-0 bg-black opacity-50"></div>
-            <div className="relative flex flex-col items-center justify-center h-full text-white text-center">
-                <h2 className="text-4xl md:text-6xl font-bold">Esto hay que modificar</h2>
-                <img src={nube} alt="Nube" className="mt-5" />
-            </div> 
-        </div>
-    );
-}
+  const theme = useTheme();
+  return (
+    <Box
+      className="header"
+      sx={{
+        textAlign: "center",
+        mb: 4,
+        paddingTop: 15,
+        backgroundColor: theme.palette.background.light,
+        borderRadius: "0 0 5rem 5rem",
+        paddingBottom: 5,
+      }}
+    >
+      <Typography variant="h1">Planea tu viaje Ideal</Typography>
+      <p>
+        Puedes filtrar para encontrar lo que necesitas, fácil, rápido e ideal
+        para hacer tu experiencia como viajero mucho más relajadora.
+      </p>
+    </Box>
+  );
+};
 
 export default Hero;

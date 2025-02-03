@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { toast } from "react-hot-toast";
-import BreadCrumbs from "../../components/BreadCrumbs";
+import {
+ 
+  useTheme,
+} from "@mui/material";
+import BreadcrumbBack from "../../components/BreadcrumbBack";
 import ReviewsContainer from "../../components/reviews/ReviewsContainer";
 import MainLayout from "../../components/MainLayout";
 import SocialShareButtons from "../../components/SocialShareButtons";
 import { images, stables } from "../../constants";
+import BgShape from "../../components/Shapes/BgShape.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { getAllExperiences, getSingleExperience } from "../../services/index/experiences";
 import ExperienceDetailSkeleton from "./components/ExperienceDetailSkeleton";
@@ -25,6 +30,8 @@ import SuggestedExperiences from "./container/SuggestedExperiences";
 const ExperienceDetailPage = () => {
   const { slug } = useParams();
   const { user, jwt } = useUser();
+
+  const { palette } = useTheme();
   const [breadCrumbsData, setbreadCrumbsData] = useState([]);
   const [body, setBody] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -97,9 +104,10 @@ const ExperienceDetailPage = () => {
           <Hero 
             imageUrl={data?.photo ? stables.UPLOAD_FOLDER_BASE_URL + data?.photo : images.sampleExperienceImage} 
             imageAlt={data?.title} 
-          />
-          <section className="container mx-auto max-w-5xl px-5 py-5">
-            <BreadCrumbs data={breadCrumbsData} />
+          />  <BgShape></BgShape>
+          <section className="container mx-auto px-5 ">
+            <BreadcrumbBack />
+          
             <div className="mt-4 flex gap-2">
               {Array.isArray(data?.categories) && data.categories.map((category) => (
                 <Link
@@ -112,17 +120,20 @@ const ExperienceDetailPage = () => {
               ))}
             </div>
             <div className="flex justify-between items-center mt-4">
-              <h2 className="text-xl font-medium text-dark-hard md:text-[26px]">
+              <h2 className="font-medium text-dark-hard 
+              
+      " style={{fontSize: "2.5rem"}}>
                 {data?.title}
               </h2> 
               <button
                 onClick={handleFavoriteClick}
-                className="bg-[#FF4A5A] p-2 rounded-full focus:outline-none"
+                style={{height: "60px", width: "60px", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: palette.primary.main }}
+                className=" p-2 rounded-full focus:outline-none"
               >
                 {isFavorite ? (
-                  <AiFillHeart className="text-white text-2xl" />
+                  <AiFillHeart className="text-white text-3xl" />
                 ) : (
-                  <AiOutlineHeart className="text-white text-2xl" /> 
+                  <AiOutlineHeart className="text-white text-3xl" /> 
                 )}
               </button>
             </div>

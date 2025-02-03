@@ -20,7 +20,12 @@
     font-weight: normal;
     font-style: normal;
 }
-
+@font-face {
+  font-family: "SifonnPro";
+  src: url("./assets/fonts/SIFONN_PRO.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 @layer base {
     body {
         font-family: 'Poppins', sans-serif;
@@ -29,4 +34,10 @@
     h1, h2, h3 {
         font-family: 'SifonnBasic', sans-serif;
     }
+}
+#body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }

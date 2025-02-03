@@ -1,0 +1,18 @@
+.bg-shape {
+  display: block;
+  border-radius: 100rem 100rem 0rem 0rem;
+}
+.section-flex {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.section-flex img {
+  border-radius: 0rem 200rem 220rem 0rem;
+  margin-right: 3rem;
+}
+.subtitle {
+  font-weight: bolder !important;
+}

@@ -1,19 +1,76 @@
-import herohome from '../../../assets/herohome.png';
-import nube from '../../../assets/nube.png';
-import Search from '../../../components/Search';
+import { useState, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+import SearchBar from "../../../components/SearchBarHome.jsx";
+
+const backgroundImages = [
+  "/assets/bg-home1.jpg",
+  "/assets/bg-home2.jpg",
+  "/assets/bg-home3.jpg",
+  "/assets/bg-home4.jpg",
+  "/assets/bg-home5.jpg",
+];
 
 const Hero = () => {
-    return (
-        <section className="relative bg-cover bg-center h-screen" style={{ backgroundImage: `url(${herohome})` }}>
-            <div className="flex flex-col items-center justify-center h-full bg-black bg-opacity-50">
-                <h2 className="text-white text-4xl md:text-6xl font-bold mb-4 text-center">Navega Japón a tu manera</h2>
-                <img src={nube} alt="Nube" className="mb-4" />
-                <div className="bg-[#d7edfc] bg-opacity-50 p-6 rounded-lg w-11/12 md:w-3/4 lg:w-2/3">
-                <Search />
-                </div>
-            </div>
-        </section>
-    );
+  const [currentImage, setCurrentImage] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setCurrentImage(
+          (prevImage) => (prevImage + 1) % backgroundImages.length
+        );
+        setFade(true);
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <Box
+      className="h-screen md:h-[79vh]"
+      sx={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "white",
+        textAlign: "center",
+        padding: "2rem",
+        overflow: "hidden",
+      }}
+    >
+      {backgroundImages.map((image, index) => (
+        <Box
+          key={index}
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: `linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.3)), url(${image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            transition: "opacity 1s ease-in-out",
+            opacity: index === currentImage && fade ? 1 : 0,
+          }}
+        />
+      ))}
+
+      <Typography
+        variant="h1"
+        sx={{ textAlign: "center", fontWeight: "bold", zIndex: 2 }}
+        gutterBottom
+      >
+        Navega Japón a Tu Manera
+      </Typography>
+      <SearchBar />
+    </Box>
+  );
 };
 
 export default Hero;
