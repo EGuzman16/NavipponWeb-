@@ -5,12 +5,12 @@ import getCroppedImg from "./cropImage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateProfilePicture } from "../../services/index/users";
 import { useDispatch } from "react-redux";
-import useUser from "../../hooks/useUser";  
+import useUser from "../../hooks/useUser";
 import { userActions } from "../../store/reducers/userReducers";
 import { toast } from "react-hot-toast";
 
 const CropEasy = ({ photo, setOpenCrop }) => {
-  const { user, jwt } = useUser();  
+  const { user, jwt } = useUser();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -40,7 +40,6 @@ const CropEasy = ({ photo, setOpenCrop }) => {
   const handleCropComplete = (cropedArea, cropedAreaPixels) => {
     setCroppedAreaPixels(cropedAreaPixels);
   };
-
   const handleCropImage = async () => {
     try {
       const croppedImg = await getCroppedImg(photo?.url, croppedAreaPixels);
@@ -54,8 +53,8 @@ const CropEasy = ({ photo, setOpenCrop }) => {
 
       mutate({ token: jwt, formData: formData });
     } catch (error) {
-      toast.error(error.message);
-      console.log(error);
+      toast.error("Error cropping image:", error.message);
+      console.error(error);
     }
   };
 

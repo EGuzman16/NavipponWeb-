@@ -6,7 +6,7 @@ const MainLayout = ({ children }) => {
   return (
     <div>
       <Header />
-      {children}
+      <div style={{ paddingTop: "10rem" }}>{children}</div>
       <Footer />
     </div>
   );

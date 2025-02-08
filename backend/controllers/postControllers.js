@@ -1,4 +1,4 @@
-import { uploadPicture } from "../middleware/uploadPictureMiddleware.js";
+import upload from "../middleware/uploadPictureMiddleware.js";
 import Post from "../models/Post.js";
 import Comment from "../models/Comment.js";
 import { fileRemover } from "../utils/fileRemover.js";
@@ -36,17 +36,18 @@ const updatePost = async (req, res, next) => {
       return;
     }
 
-    const upload = uploadPicture.single("postPicture");
+    const upload = upload.single("postPicture");
 
     const handleUpdatePostData = async (data) => {
-      const { title, caption, slug, body, tags, categories, approved } = JSON.parse(data);  
+      const { title, caption, slug, body, tags, categories, approved } =
+        JSON.parse(data);
       post.title = title || post.title;
       post.caption = caption || post.caption;
       post.slug = slug || post.slug;
       post.body = body || post.body;
       post.tags = tags || post.tags;
       post.categories = categories || post.categories;
-      post.approved = approved !== undefined ? approved : post.approved; 
+      post.approved = approved !== undefined ? approved : post.approved;
       const updatedPost = await post.save();
       return res.json(updatedPost);
     };

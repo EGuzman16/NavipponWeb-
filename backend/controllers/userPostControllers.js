@@ -1,4 +1,4 @@
-import { uploadPicture } from "../middleware/uploadPictureMiddleware.js";
+import upload from "../middleware/uploadPictureMiddleware.js";
 import Post from "../models/Post.js";
 import Comment from "../models/Comment.js";
 import { fileRemover } from "../utils/fileRemover.js";
@@ -91,7 +91,7 @@ const deletePost = async (req, res, next) => {
       const error = new Error("Post no encontrado");
       return next(error);
     }
-    
+
     if (post.user.toString() !== req.user._id.toString() && !req.user.admin) {
       res.status(401);
       throw new Error("No autorizado");

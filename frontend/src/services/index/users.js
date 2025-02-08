@@ -77,12 +77,14 @@ export const updateProfilePicture = async ({ token, formData }) => {
     };
 
     const { data } = await axios.put(
-      "/api/users/updateProfilePicture",
+      "http://localhost:5001/api/users/updateProfilePicture", // Ensure this is correct
       formData,
       config
     );
+
     return data;
   } catch (error) {
+    console.error("Error updating profile picture:", error); // Debugging
     if (error.response && error.response.data.message)
       throw new Error(error.response.data.message);
     throw new Error(error.message);
@@ -102,8 +104,11 @@ export const getAllUsers = async (
       },
     };
 
-        console.log("URL:", `/api/users?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`);
-        console.log("Token:", token);
+    console.log(
+      "URL:",
+      `/api/users?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`
+    );
+    console.log("Token:", token);
 
     const { data, headers } = await axios.get(
       `/api/users?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,

@@ -1,17 +1,15 @@
-import fs from "fs";
-import path from "path";
+import cloudinary from "../config/cloudinaryConfig.js";
 
-const fileRemover = (filename) => {
-  fs.unlink(path.join(__dirname, "../uploads", filename), function (err) {
-    if (err && err.code == "ENOENT") {
-      console.log(`El archivo ${filename} No existe, no se elimina.`);
-    } else if (err) {
-      console.log(err.message);
-      console.log(`Se produjo un error al intentar eliminar el archivo ${filename}`);
-    } else {
-      console.log(`Se eliminó ${filename}`);
-    }
-  });
+export const fileRemover = async (imageUrl) => {
+  try {
+    // Extract Cloudinary public ID from URL
+    const publicId = imageUrl.split("/").pop().split(".")[0];
+
+    // Delete image from Cloudinary
+    await cloudinary.uploader.destroy(`uploads/${publicId}`);
+
+    console.log(`Image ${imageUrl} deleted successfully.`);
+  } catch (error) {
+    console.error("Error deleting image:", error);
+  }
 };
-
-export { fileRemover };

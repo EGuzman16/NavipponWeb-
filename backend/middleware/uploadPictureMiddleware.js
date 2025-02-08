@@ -1,27 +1,17 @@
 import multer from "multer";
-import path from "path";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinaryConfig.js"; // Import Cloudinary
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../uploads"));
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+// Configure Cloudinary Storage for Multer
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "uploads", // Folder name in Cloudinary
+    format: async (req, file) => "jpg", // Convert all uploads to JPG
+    public_id: (req, file) => Date.now() + "-" + file.originalname, // Unique file name
   },
 });
 
-const uploadPicture = multer({
-  storage: storage,
-  limits: {
-    fileSize: 1 * 1000000, // 1MB
-  },
-  fileFilter: function (req, file, cb) {
-    let ext = path.extname(file.originalname);
-    if (ext !== ".png" && ext !== ".jpg" && ext !== ".jpeg") {
-      return cb(new Error("Solo se permiten imagenes en formato png, jpg o jpeg"));
-    }
-    cb(null, true);
-  },
-});
+const upload = multer({ storage });
 
-export { uploadPicture };
+export default upload;

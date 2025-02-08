@@ -1,4 +1,4 @@
-import { uploadPicture } from "../middleware/uploadPictureMiddleware.js";
+import upload from "../middleware/uploadPictureMiddleware.js";
 import Comment from "../models/Comment.js";
 import Post from "../models/Post.js";
 import User from "../models/User.js";
@@ -133,51 +133,28 @@ const updateProfile = async (req, res, next) => {
 
 const updateProfilePicture = async (req, res, next) => {
   try {
-    const upload = uploadPicture.single("profilePicture");
+    if (!req.file) {
+      throw new Error("No file uploaded.");
+    }
 
-    upload(req, res, async function (err) {
-      if (err) {
-        const error = new Error(
-          "Se produjo un error desconocido al cargar  " + err.message
-        );
-        next(error);
-      } else {
-        if (req.file) {
-          let filename;
-          let updatedUser = await User.findById(req.user._id);
-          filename = updatedUser.avatar;
-          if (filename) {
-            fileRemover(filename);
-          }
-          updatedUser.avatar = req.file.filename;
-          await updatedUser.save();
-          res.json({
-            _id: updatedUser._id,
-            avatar: updatedUser.avatar,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            verified: updatedUser.verified,
-            admin: updatedUser.admin,
-            token: await updatedUser.generateJWT(),
-          });
-        } else {
-          let filename;
-          let updatedUser = await User.findById(req.user._id);
-          filename = updatedUser.avatar;
-          updatedUser.avatar = "";
-          await updatedUser.save();
-          fileRemover(filename);
-          res.json({
-            _id: updatedUser._id,
-            avatar: updatedUser.avatar,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            verified: updatedUser.verified,
-            admin: updatedUser.admin,
-            token: await updatedUser.generateJWT(),
-          });
-        }
-      }
+    let user = await User.findById(req.user._id);
+
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    // Save Cloudinary URL in the database
+    user.avatar = req.file.path;
+    await user.save();
+
+    res.json({
+      _id: user._id,
+      avatar: user.avatar, // Cloudinary Image URL
+      name: user.name,
+      email: user.email,
+      verified: user.verified,
+      admin: user.admin,
+      token: await user.generateJWT(),
     });
   } catch (error) {
     next(error);
